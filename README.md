@@ -1,14 +1,13 @@
-# Paper Repository: Neural posterior estimation of the neutrino direction in IceCube
-using transformer-encoded normalizing flows on the sphere
+# Paper: Neural posterior estimation of the neutrino direction in IceCube using transformer-encoded normalizing flows on the sphere
 
 This is the offical repository of [Neural posterior estimation of the neutrino direction in IceCube
-using transformer-encoded normalizing flows on the sphere (arXiv:2604.19846)](https://arxiv.org/pdf/2604.19846) and includes the training settings for the transformer encoder and the normalizing flow.
+using transformer-encoded normalizing flows on the sphere (arXiv:2604.19846)](https://arxiv.org/abs/2604.19846) and includes the training settings for the transformer encoder and the normalizing flow.
 
 ## Transformer encoding settings
 
-The paper uses the transformer encoder implementation [here](https://github.com/icecube/learning_ground_base/encoders/mh_attention_encoder_new.py) from the repo [learning_ground_base](https://github.com/icecube/learning_ground_base).
+The paper uses the transformer encoder implementation [here](https://github.com/icecube/learning_ground_base/blob/main/learning_ground/encoders/mh_attention_encoder_new.py) from the repo [learning_ground_base](https://github.com/icecube/learning_ground_base). In particular make sure to use [V0.1](https://github.com/icecube/learning_ground_base/releases/tag/0.1) of the repository for reproducibility.
 
-The top configs from the paper are shown below, and can be directly used with the [model implementation](https://github.com/icecube/learning_ground_base/encoders/mh_attention_encoder_new.py).
+The top configs from the paper are shown below, and can be directly used with the [model implementation](https://github.com/icecube/learning_ground_base/blob/main/learning_ground/encoders/mh_attention_encoder_new.py).
 
 <details>
 <summary>Top shower configuration (shower model ID 1)</summary>
@@ -154,7 +153,7 @@ settings.attn_num_token_types: 1
 
 # Normalizing flow settings
 The normalizing flow is implemented in [**jammy_flows**](https://github.com/thoglu/jammy_flows) version 1.1.0.
-It needs to be set it up [in conditional mode](https://thoglu.github.io/jammy_flows/usage/training.html#conditional-pdf) (`conditional_input_dim=N`, where `N` is a previous hidden dimension that maps to the normalizing flow parameters) and with the right [settings](https://thoglu.github.io/jammy_flows/usage/suggested_settings.html#spherical-pdf-2-sphere) from the paper. In the following, the options for the model are given.
+It needs to be set it up [in conditional mode](https://thoglu.github.io/jammy_flows/usage/training.html#conditional-pdf) (`conditional_input_dim=N`, where `N` is a previous hidden dimension that maps to the normalizing flow parameters) and with the right [settings](https://thoglu.github.io/jammy_flows/usage/suggested_settings.html#spherical-pdf-2-sphere) from the paper. 
 
 <details>
 <summary>Baseline jammy-flows config - used in most trainings and in leading models</summary>
