@@ -151,7 +151,7 @@ settings.attn_num_token_types: 1
 
 </details>
 
-# Normalizing flow settings
+## Normalizing flow settings
 The normalizing flow is implemented in [**jammy_flows**](https://github.com/thoglu/jammy_flows) version 1.1.0.
 It needs to be set it up [in conditional mode](https://thoglu.github.io/jammy_flows/usage/training.html#conditional-pdf) (`conditional_input_dim=N`, where `N` is a previous hidden dimension that maps to the normalizing flow parameters) and with the right [settings](https://thoglu.github.io/jammy_flows/usage/suggested_settings.html#spherical-pdf-2-sphere) from the paper. 
 
