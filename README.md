@@ -1,5 +1,3 @@
-# Paper: Neural posterior estimation of the neutrino direction in IceCube using transformer-encoded normalizing flows on the sphere
-
 This is the offical repository of [Neural posterior estimation of the neutrino direction in IceCube
 using transformer-encoded normalizing flows on the sphere (arXiv:2604.19846)](https://arxiv.org/abs/2604.19846) and includes the training settings for the transformer encoder and the normalizing flow.
 
