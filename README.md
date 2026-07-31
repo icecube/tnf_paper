@@ -1,63 +1,12 @@
-# The official repository of the paper 
+# Paper Repository: Neural posterior estimation of the neutrino direction in IceCube
+using transformer-encoded normalizing flows on the sphere
 
-# The normalizing flow
-The normalizing flow is implemented in [**jammy_flows**](https://github.com/thoglu/jammy_flows) version 1.1.0.
-It needs to be set it up [in conditional mode](https://thoglu.github.io/jammy_flows/usage/training.html#conditional-pdf) (`conditional_input_dim=N`, where `N` is a previous hidden dimension that maps to the normalizing flow parameters) and with the right [settings](https://thoglu.github.io/jammy_flows/usage/suggested_settings.html#spherical-pdf-2-sphere) from the paper. In the following, the options for the model are given.
+This is the offical repository of [Neural posterior estimation of the neutrino direction in IceCube
+using transformer-encoded normalizing flows on the sphere (arXiv:2604.19846)](https://arxiv.org/pdf/2604.19846) and includes the training settings for the transformer encoder and the normalizing flow.
 
-<details>
-<summary>Baseline jammy-flows config - used in most trainings</summary>
+## Transformer encoding settings
 
-```python
-opt_dict=dict()
-opt_dict["f"]=dict()
-opt_dict["f"]["add_vertical_rq_spline_flow"]=1
-opt_dict["f"]["spline_num_basis_functions"]=-1
-opt_dict["f"]["vertical_smooth"]=1
-opt_dict["f"]["vertical_flow_defs"]="rr"
-opt_dict["f"]["circular_flow_defs"] = "oo"
-opt_dict["f"]["vertical_fix_boundary_derivative"]=1
-opt_dict["f"]["min_kappa"]=1e-10
-opt_dict["f"]["kappa_prediction"]="direct_log_real_bounded"
-opt_dict["f"]["kappa_clamping"]=0
-opt_dict["f"]["vertical_restrict_max_min_width_height_ratio"]=-1.0
-opt_dict["f"]["vertical_fix_first_width_n_height_to_zero"]=1
-opt_dict["f"]["vertical_independent_width_height_parametrization"]=1 
-opt_dict["f"]["add_circular_rq_spline_flow"]=1 # add circle flow
-opt_dict["f"]["circular_add_rotation"]=0 # no extra rotation on circle flow
-opt_dict["f"]["vertical_also_fix_second_width_to_zero"]=1
-opt_dict["f"]["rotation_mode"]="householder"
-
-pdf=jammy_flows.pdf("s2", "fffffffffffffff", options_overwrite=opt_dict, conditional_input_dim=*N*)
-pdf.double() # double precision usually necessary to avoid numerical issues
-```
-
-</details>
-```
-
-<details>
-<summary>Pure von-Mises Fisher config - used in a small subset of trainings</summary>
-
-```python
-opt_dict=dict()
-opt_dict["f"]=dict()
-opt_dict["f"]["add_vertical_rq_spline_flow"]=0
-opt_dict["f"]["min_kappa"]=1e-10
-opt_dict["f"]["kappa_prediction"]="direct_log_real_bounded"
-opt_dict["f"]["kappa_clamping"]=0
-opt_dict["f"]["rotation_mode"]="householder"
-
-pdf=jammy_flows.pdf("s2", "f", options_overwrite=opt_dict, conditional_input_dim=*N*)
-pdf.double() # double precision usually necessary to avoid numerical issues
-```
-
-</details>
-```
-
-
-
-## Transformer encoding
-
-The paper uses the transformer implementation [here](https://github.com/icecube/learning_ground_base/encoders/mh_attention_encoder_new.py) from the repo [learning_ground_base](https://github.com/icecube/learning_ground_base).
+The paper uses the transformer encoder implementation [here](https://github.com/icecube/learning_ground_base/encoders/mh_attention_encoder_new.py) from the repo [learning_ground_base](https://github.com/icecube/learning_ground_base).
 
 The top configs from the paper are shown below, and can be directly used with the [model implementation](https://github.com/icecube/learning_ground_base/encoders/mh_attention_encoder_new.py).
 
@@ -202,3 +151,56 @@ settings.attn_num_token_types: 1
 ```
 
 </details>
+
+# Normalizing flow settings
+The normalizing flow is implemented in [**jammy_flows**](https://github.com/thoglu/jammy_flows) version 1.1.0.
+It needs to be set it up [in conditional mode](https://thoglu.github.io/jammy_flows/usage/training.html#conditional-pdf) (`conditional_input_dim=N`, where `N` is a previous hidden dimension that maps to the normalizing flow parameters) and with the right [settings](https://thoglu.github.io/jammy_flows/usage/suggested_settings.html#spherical-pdf-2-sphere) from the paper. In the following, the options for the model are given.
+
+<details>
+<summary>Baseline jammy-flows config - used in most trainings and in leading models</summary>
+
+```python
+opt_dict=dict()
+opt_dict["f"]=dict()
+opt_dict["f"]["add_vertical_rq_spline_flow"]=1
+opt_dict["f"]["spline_num_basis_functions"]=-1
+opt_dict["f"]["vertical_smooth"]=1
+opt_dict["f"]["vertical_flow_defs"]="rr"
+opt_dict["f"]["circular_flow_defs"] = "oo"
+opt_dict["f"]["vertical_fix_boundary_derivative"]=1
+opt_dict["f"]["min_kappa"]=1e-10
+opt_dict["f"]["kappa_prediction"]="direct_log_real_bounded"
+opt_dict["f"]["kappa_clamping"]=0
+opt_dict["f"]["vertical_restrict_max_min_width_height_ratio"]=-1.0
+opt_dict["f"]["vertical_fix_first_width_n_height_to_zero"]=1
+opt_dict["f"]["vertical_independent_width_height_parametrization"]=1 
+opt_dict["f"]["add_circular_rq_spline_flow"]=1 # add circle flow
+opt_dict["f"]["circular_add_rotation"]=0 # no extra rotation on circle flow
+opt_dict["f"]["vertical_also_fix_second_width_to_zero"]=1
+opt_dict["f"]["rotation_mode"]="householder"
+
+pdf=jammy_flows.pdf("s2", "fffffffffffffff", options_overwrite=opt_dict, conditional_input_dim=*N*)
+pdf.double() # double precision usually necessary to avoid numerical issues
+```
+
+</details>
+```
+
+<details>
+<summary>Pure von-Mises Fisher config - used in a small subset of trainings</summary>
+
+```python
+opt_dict=dict()
+opt_dict["f"]=dict()
+opt_dict["f"]["add_vertical_rq_spline_flow"]=0
+opt_dict["f"]["min_kappa"]=1e-10
+opt_dict["f"]["kappa_prediction"]="direct_log_real_bounded"
+opt_dict["f"]["kappa_clamping"]=0
+opt_dict["f"]["rotation_mode"]="householder"
+
+pdf=jammy_flows.pdf("s2", "f", options_overwrite=opt_dict, conditional_input_dim=*N*)
+pdf.double() # double precision usually necessary to avoid numerical issues
+```
+
+</details>
+```
